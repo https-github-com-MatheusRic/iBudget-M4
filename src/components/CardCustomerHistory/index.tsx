@@ -1,54 +1,28 @@
-import { useRef } from "react";
 import { GoTrashcan } from "react-icons/go";
-import { GrDocumentPdf } from "react-icons/gr";
 import { FaRegEdit } from "react-icons/fa";
 import { motion } from "framer-motion";
 
-import { useBudgetContext } from "../../contexts/BudgetContext";
-import { IBudget } from "../../contexts/UserContext/interfaces";
 import { ConteinerCardCustomerHistory } from "./style";
+import { ICustomer } from "../../contexts/CustomersContext/interfaces";
+import { useCustomerContext } from "../../contexts/CustomersContext/index";
 
 export const CardCustomerHistory = ({
-  projectName,
-  budget,
-  id,
-  projectTime,
-}: IBudget) => {
-  const priceFormated = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  });
-
+  name,
+  uuid,
+  email,
+  contact,
+  isCompany,
+}: ICustomer) => {
   const {
-    setClickedBudgetId,
-    deleteBudgetHistory,
-    generatePDF,
     setEditModalCard,
-    setInputProjectName,
-    setBudgetValue,
-    setProjectTime,
-  } = useBudgetContext();
-  const ref = useRef<HTMLSpanElement>(null);
+    setClickedId,
+    deleteCustomer,
+    navigateDashboardBudget,
+  } = useCustomerContext();
 
-  const openEditModal = (
-    id: string | number,
-    projectName: string,
-    budget: number,
-    projectTime: number
-  ) => {
-    setClickedBudgetId(id);
+  const openEditModal = () => {
+    setClickedId(uuid);
     setEditModalCard(true);
-    setInfosOnInputs(projectName, budget, projectTime);
-  };
-
-  const setInfosOnInputs = (
-    projectName: string,
-    budget: number,
-    projectTime: number
-  ) => {
-    setInputProjectName(projectName);
-    setBudgetValue(budget);
-    setProjectTime(projectTime);
   };
 
   return (
@@ -59,26 +33,15 @@ export const CardCustomerHistory = ({
       animate={{ x: 0 }}
       exit={{ x: -100 }}
       transition={{ duration: 0.3 }}
+      onClick={() => navigateDashboardBudget(uuid)}
     >
-      <h2>{projectName}</h2>
-      <span>Valor: {priceFormated.format(budget)}</span>
-      <span ref={ref}>N°:{id}</span>
+      <h2>{name}</h2>
+      <span>email: {email}</span>
+      {!!contact && <span>contact: {contact}</span>}
       <div>
-        <FaRegEdit
-          onClick={() => openEditModal(id, projectName, budget, projectTime)}
-        />
-        <GrDocumentPdf
-          onClick={() => {
-            const newDate = {
-              projectName,
-              budget,
-              projectId: id,
-              projectTime,
-            };
-            generatePDF(newDate);
-          }}
-        />
-        <GoTrashcan onClick={() => deleteBudgetHistory(id)} />
+        <FaRegEdit onClick={() => openEditModal()} />
+
+        <GoTrashcan onClick={() => deleteCustomer(uuid)} />
       </div>
     </ConteinerCardCustomerHistory>
   );
