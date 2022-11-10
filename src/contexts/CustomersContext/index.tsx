@@ -1,6 +1,12 @@
 import { createContext, useContext, useState } from "react";
-import { ICreateCustomer, ICustomerContext, ICustomerProvider } from "./interfaces";
+import { 
+  ICreateCustomer, 
+  ICustomerContext, 
+  ICustomerProvider, 
+  IUpdateCustomer 
+} from "./interfaces";
 import iBudgetApi from "../../services/iBudgetApi";
+import { useUserContext } from "../UserContext";
 
 const CustomerContext = createContext<ICustomerContext>({} as ICustomerContext);
 
@@ -10,39 +16,66 @@ export const useCustomerContext = () => {
 };
 
 export const CustomerProvider = ({ children }: ICustomerProvider) => {
-  const [customersList, setCustomerList] = useState<ICreateCustomer[]>([]);
   const [onCreateCustomer, setOnCreateCustomer] = useState<boolean>(true);
+  const [editModalCard, setEditModalCard] = useState<boolean>(false);
+  const [clickedId, setClickedId] = useState<string>("");
 
-  const sendCustomer = async () => {
-    const token = localStorage.getItem('Token')
-    const createCustomer = await iBudgetApi.post('/customers',
-    {
-        headers : {
-          Authorization: `Bearer: ${token}`
-        }
-      })
-  };
+  const { setCustomersHistory } = useUserContext();
 
-
-  const listCustomers = async (): Promise<void> => {
-    const token = localStorage.getItem('Token')
-    const customerResponse = await iBudgetApi.get('/customers', {
-        headers : {
-          Authorization: `Bearer: ${token}`
-        }
-      })
-      .then(res => res)
-      .catch(error => console.log(error))
-      // setCustomerList(customerResponse)
+  const createCustomer = async (data: ICreateCustomer): Promise<void> => {
+    try {
+      await iBudgetApi.post("/customers", data);
+      sendCustomers();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
+  const sendCustomers = async (): Promise<void> => {
+    try {
+      const res = await iBudgetApi.get("/customers");
+      setCustomersHistory(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const updateCustomer = async (data: IUpdateCustomer): Promise<void> => {
+    try {
+      await iBudgetApi.patch(`/customers/${clickedId}`, data);
+      sendCustomers();
+      setEditModalCard(false)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const deleteCustomer = async (uuid: string): Promise<void> => {
+    try {
+      await iBudgetApi.delete(`/customers/${uuid}`);
+      sendCustomers();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const navigateDashboardBudget = (uuid: string) => {
+    setClickedId(uuid);
     
+  }
+
   return (
     <CustomerContext.Provider
       value={{
-        sendCustomer,
+        createCustomer,
         onCreateCustomer,
-        setOnCreateCustomer
+        setOnCreateCustomer,
+        updateCustomer,
+        deleteCustomer,
+        editModalCard,
+        setEditModalCard,
+        setClickedId,
+        navigateDashboardBudget,
       }}
     >
       {children}

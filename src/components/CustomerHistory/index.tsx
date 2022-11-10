@@ -4,20 +4,17 @@ import { CardCustomerHistory } from "../CardCustomerHistory";
 import { useUserContext } from "../../contexts/UserContext/index";
 import { IoSearch } from "react-icons/io5";
 import { ContainerCustomertHistory, FilterBar } from "./style";
-import { IBudget } from "../../contexts/UserContext/interfaces";
 import { useState } from "react";
-import { useCustomerContext } from '../../contexts/CustomersContext/index';
+import { useCustomerContext } from "../../contexts/CustomersContext/index";
+import { ICustomer } from "../../contexts/CustomersContext/interfaces";
 
 export const CustomerHistory = () => {
-  const { 
-    setOnCreateCustomer,
-    onCreateCustomer 
-  } = useCustomerContext();
+  const { setOnCreateCustomer, onCreateCustomer } = useCustomerContext();
 
   const { customersHistory } = useUserContext();
   const [searchValue, setSearchValue] = useState<string>("");
 
-  customersHistory.sort((a, b) => Number(b.id) - Number(a.id));
+  customersHistory.sort((a, b) => Number(b.uuid) - Number(a.uuid));
 
   const normalize = (str: string): string => {
     return str
@@ -31,20 +28,18 @@ export const CustomerHistory = () => {
     searchValue.length > 0
       ? customersHistory.filter((elem) => {
           const normalizedSearch = normalize(searchValue);
-          const normalizedProjectName = normalize(elem.projectName);
+          const normalizedProjectName = normalize(elem.name);
 
           return normalizedProjectName.includes(normalizedSearch);
         })
-      : [];
+      : customersHistory;
 
   return (
     <ContainerCustomertHistory>
       <FilterBar>
         <div>
           <h2>Histórico de clientes</h2>
-          <h2
-            onClick={() => setOnCreateCustomer(!onCreateCustomer)}
-          >
+          <h2 onClick={() => setOnCreateCustomer(!onCreateCustomer)}>
             Criar Cliente
           </h2>
         </div>
@@ -64,19 +59,17 @@ export const CustomerHistory = () => {
         {searchValue.length > 0 ? (
           filteredCustomers.length > 0 ? (
             filteredCustomers.map(
-              ({ budget, projectName, id, projectTime }: IBudget) => {
+              ({ uuid, name, contact, email }: ICustomer) => {
                 return (
                   <CardCustomerHistory
-                    key={id}
-                    projectName={projectName}
-                    budget={budget}
-                    id={id}
-                    projectTime={projectTime}
-                    fixedCost=""
-                    variableCost=""
+                    key={uuid}
+                    uuid={uuid}
+                    name={name}
+                    contact={contact}
+                    email={email}
                   />
                 );
-              }
+              },
             )
           ) : (
             <p>
@@ -84,21 +77,17 @@ export const CustomerHistory = () => {
             </p>
           )
         ) : filteredCustomers.length > 0 ? (
-          filteredCustomers.map(
-            ({ budget, projectName, id, projectTime }: IBudget) => {
-              return (
-                <CardCustomerHistory
-                  key={id}
-                  projectName={projectName}
-                  budget={budget}
-                  id={id}
-                  projectTime={projectTime}
-                  fixedCost=""
-                  variableCost=""
-                />
-              );
-            }
-          )
+          filteredCustomers.map(({ uuid, name, contact, email }: ICustomer) => {
+            return (
+              <CardCustomerHistory
+                key={uuid}
+                uuid={uuid}
+                name={name}
+                contact={contact}
+                email={email}
+              />
+            );
+          })
         ) : (
           <span>Nenhum orçamento criado até o momento</span>
         )}

@@ -12,9 +12,9 @@ import BtnProvider from "./contexts/BntChangeTeam/bntChanceTeam";
 function App() {
   return (
     <>
-      <CustomerProvider>
-        <UserProvider>
-          <BudgetProvider>
+      <UserProvider>
+        <BudgetProvider>
+          <CustomerProvider>
             <BtnProvider>
               <GlobalStyle />
               <ToastContainer
@@ -32,9 +32,9 @@ function App() {
               />
               <Routes />
             </BtnProvider>
-          </BudgetProvider>
-        </UserProvider>
-      </CustomerProvider>
+          </CustomerProvider>
+        </BudgetProvider>
+      </UserProvider>
     </>
   );
 }

@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { ICustomer } from '../CustomersContext/interfaces';
 
 export interface IUserProviderProps {
   children: ReactNode;
@@ -11,7 +12,7 @@ export interface IUser {
   username: string;
   position: string;
   imageUrl: string;
-  id: string | number;
+  uuid: string | number;
   budgets?: IBudget[];
 }
 
@@ -46,7 +47,7 @@ export interface IRegisterForm {
 }
 
 export interface IUserProviderData {
-  customersHistory: IBudget[];
+  customersHistory: ICustomer[];
   user: IUser;
   isAuthenticated: boolean;
   isHome: boolean;
@@ -63,7 +64,7 @@ export interface IUserProviderData {
   setIsSobre: (isSobre: boolean) => void;
   setIsRegister: (isRegister: boolean) => void;
   setIsImage: (isImage: string) => void;
-  setCustomersHistory: (budgetHistory: IBudget[]) => void;
+  setCustomersHistory: (customersHistory: ICustomer[]) => void;
   onSubmitLogin: (loginFormData: ILoginForm) => void;
   onSubmitRegister: (registerFormData: IRegisterForm) => void;
   handleSignOut: () => void;

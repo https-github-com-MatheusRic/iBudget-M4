@@ -46,6 +46,7 @@ export const BudgetProvider = ({ children }: IBudgetProvider) => {
   });
 
   useEffect(() => {
+    console.log("oi")
     requestBudget();
   }, []);
 
@@ -57,7 +58,7 @@ export const BudgetProvider = ({ children }: IBudgetProvider) => {
       try {
         iBudgetApi.defaults.headers.common.authorization = `Bearer ${token}`;
         const userResponse = await iBudgetApi.get(
-          `/users/${id}?_embed=budgets`
+          `/users/${id}`
         );
         setCustomersHistory(userResponse.data.budgets);
       } catch (error) {

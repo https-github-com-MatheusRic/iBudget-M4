@@ -1,17 +1,13 @@
 import { AnimatePresence, motion } from "framer-motion";
-
-// import { ModalFixedCost } from "../ModalFixedCost/index";
-// import { ModalVariableCost } from "../ModalVariableCost/index";
-// import { ModalEditCard } from "../ModalEditCard/index";
-// import { useBudgetContext } from "../../contexts/BudgetContext";
+import { ModalEditCardCustomer } from "../ModalEditCardCustomer";
 
 import { MainConteiner } from "./style";
 import { CreateCustomer } from "../CreateCustomer";
 import { CustomerHistory } from '../CustomerHistory/index';
+import { useCustomerContext } from '../../contexts/CustomersContext/index';
 
 export const DashboardCustomers = () => {
-  // const { onModalFixedCost, onModalVariableCost, editModalCard } =
-  //   useBudgetContext();
+  const { editModalCard } = useCustomerContext();
 
   return (
     <main>
@@ -33,9 +29,7 @@ export const DashboardCustomers = () => {
       </MainConteiner>
 
       <AnimatePresence>
-        {/* {onModalFixedCost && <ModalFixedCost />}
-        {onModalVariableCost && <ModalVariableCost />}
-        {editModalCard && <ModalEditCard />} */}
+        {editModalCard && <ModalEditCardCustomer />}
       </AnimatePresence>
     </main>
   );
