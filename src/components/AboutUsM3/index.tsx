@@ -9,9 +9,14 @@ import gabriella from "../../assets/img/gabriella-terra-photo.png";
 import victor from "../../assets/img/victor-avila-photo.png";
 import rafael from "../../assets/img/rafael-grillo-photo.jpg";
 
+import { ButtonChangeTeam } from "../AboutUs/styles";
+import { useContext } from "react";
+import { BntChangeTeamContext } from "../../contexts/BntChangeTeam/bntChanceTeam";
+
+
 
 const AboutUsM3 = () => {
-
+  const {clickToChange,setClickToChange} = useContext(BntChangeTeamContext)
   const Developers = [
     {
       image: victor,
@@ -97,6 +102,7 @@ const AboutUsM3 = () => {
             />
           ))}
         </EquipList>
+        <ButtonChangeTeam onClick={()=> setClickToChange(!clickToChange)}>{clickToChange?"Conhecer equipe M3!" : "Conhecer equipe M4!"}</ButtonChangeTeam> 
       </AboutUsDiv>
     </>
   );
