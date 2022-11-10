@@ -31,5 +31,6 @@ export interface ICustomerContext {
     editModalCard: boolean;
     setEditModalCard: (editModalCard: boolean) => void;
     setClickedId: (clickedId: string) => void;
-    navigateDashboardBudget: (uuid: string) => void;
+    clickedId: string;
+    sendBudgets: () => void;
 }

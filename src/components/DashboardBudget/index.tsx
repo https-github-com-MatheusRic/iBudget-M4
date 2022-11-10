@@ -8,14 +8,10 @@ import { CreateBudget } from "../CreateBudget/index";
 import { BudgetHistory } from "../BudgetHistory/index";
 
 import { MainConteiner } from "./style";
-import ModalUserInfo from "../ModalUserInfo";
-import { useUserContext } from "../../contexts/UserContext";
 
 export const DashboardBudget = () => {
   const { onModalFixedCost, onModalVariableCost, editModalCard } =
     useBudgetContext();
-
-  const { onModalUserInfo } = useUserContext();
 
   return (
     <main>

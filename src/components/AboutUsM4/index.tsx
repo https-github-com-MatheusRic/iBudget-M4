@@ -1,28 +1,24 @@
 import { motion } from "framer-motion";
 import { v4 as uuid } from "uuid";
 import Developer from "../Developer";
-import { AboutUsDiv, EquipList } from "./styles";
+import { AboutUsDiv, EquipList, ButtonChangeTeam } from "../AboutUs/styles";
 import alvaro from "../../assets/img/alvaro-alencar-photo.jpeg";
 import gabriel from "../../assets/img/gabriel-alencar-photo.jpg";
 import gabriella from "../../assets/img/gabriella-terra-photo.png";
-import { ButtonChangeTeam } from "../AboutUs/styles";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { BntChangeTeamContext } from "../../contexts/BntChangeTeam/bntChanceTeam";
 
-
-
 const AboutUsM4 = () => {
-
-  const {clickToChange,setClickToChange} = useContext(BntChangeTeamContext)
+  const { clickToChange, setClickToChange } = useContext(BntChangeTeamContext);
 
   const developersM4 = [
     {
-      image: "https://farm66.staticflickr.com/65535/52486243517_89333883ab_m.jpg",
+      image:
+        "https://farm66.staticflickr.com/65535/52486243517_89333883ab_m.jpg",
       name: "Jean Lucas",
       position: "Scrum Master",
       linkedin: "https://www.linkedin.com/in/jeluskinha/",
       github: "https://github.com/Jeluskinha",
-
     },
     {
       image: gabriel,
@@ -32,17 +28,19 @@ const AboutUsM4 = () => {
       github: "https://github.com/gabrielAlencar33564",
     },
     {
-    image: "https://farm66.staticflickr.com/65535/52487208065_b356393041_m.jpg",
-    name: "Bruna Dalla",
-    position: "Product Owner",
-    linkedin: "https://www.linkedin.com/in/brunadalla/",
-    github: "https://github.com/brunadalla",
+      image:
+        "https://farm66.staticflickr.com/65535/52487208065_b356393041_m.jpg",
+      name: "Bruna Dalla",
+      position: "Product Owner",
+      linkedin: "https://www.linkedin.com/in/brunadalla/",
+      github: "https://github.com/brunadalla",
     },
     {
       image: alvaro,
       name: "Alvaro Alencar",
       position: "Quality Assurance",
-      linkedin:"https://www.linkedin.com/in/alvaro-romario-cavalcante-alencar/",
+      linkedin:
+        "https://www.linkedin.com/in/alvaro-romario-cavalcante-alencar/",
       github: "https://github.com/alvaroallencar",
     },
     {
@@ -53,16 +51,15 @@ const AboutUsM4 = () => {
       github: "https://github.com/GabriellaTerra",
     },
     {
-      image:"https://farm66.staticflickr.com/65535/52486243537_62fab28c25_m.jpg",
+      image:
+        "https://farm66.staticflickr.com/65535/52486243537_62fab28c25_m.jpg",
       name: "Matheus Ricardo",
       position: "Quality Assurance",
       linkedin: "https://www.linkedin.com/in/matheusricardopb/",
       github: "https://github.com/MatheusRic",
-    }
- 
+    },
+  ];
 
-  ]
-  
   return (
     <>
       <AboutUsDiv
@@ -75,14 +72,13 @@ const AboutUsM4 = () => {
         <div className="text-container">
           <p>
             Este é o nosso <strong>Projeto final Back-End do M4</strong> da
-            Kenzie Academy Brasil 
+            Kenzie Academy Brasil
           </p>
+          <p>Nós do grupo 36 gostaríamos de agradecer a equipe da Kenzie.</p>
           <p>
-            Nós do grupo 36 gostaríamos de agradecer a equipe da Kenzie.
-          </p>
-          <p>
-            Neste módulo optamos por realizar uma projeto full-stack , unindo as funcionalidades da
-            aplicação fron-end com os conhecimentos de back-end adquiridos até aqui!
+            Neste módulo optamos por realizar uma projeto full-stack , unindo as
+            funcionalidades da aplicação fron-end com os conhecimentos de
+            back-end adquiridos até aqui!
           </p>
           <p>
             Segue abaixo o time responsável pela idealização e desenvolvimento
@@ -102,7 +98,9 @@ const AboutUsM4 = () => {
             />
           ))}
         </EquipList>
-        <ButtonChangeTeam onClick={()=> setClickToChange(!clickToChange)}>{clickToChange?"Conhecer equipe M3!" : "Conhecer equipe M4!"}</ButtonChangeTeam> 
+        <ButtonChangeTeam onClick={() => setClickToChange(!clickToChange)}>
+          {clickToChange ? "Conhecer equipe M3!" : "Conhecer equipe M4!"}
+        </ButtonChangeTeam>
       </AboutUsDiv>
     </>
   );

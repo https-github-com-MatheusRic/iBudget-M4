@@ -1,22 +1,18 @@
 import { motion } from "framer-motion";
 import { v4 as uuid } from "uuid";
 import Developer from "../Developer";
-import { AboutUsDiv, EquipList } from "./styles";
+import { AboutUsDiv, EquipList, ButtonChangeTeam } from "../AboutUs/styles";
 import alexandre from "../../assets/img/alexandre-borges-photo.png";
 import alvaro from "../../assets/img/alvaro-alencar-photo.jpeg";
 import gabriel from "../../assets/img/gabriel-alencar-photo.jpg";
 import gabriella from "../../assets/img/gabriella-terra-photo.png";
 import victor from "../../assets/img/victor-avila-photo.png";
 import rafael from "../../assets/img/rafael-grillo-photo.jpg";
-
-import { ButtonChangeTeam } from "../AboutUs/styles";
 import { useContext } from "react";
 import { BntChangeTeamContext } from "../../contexts/BntChangeTeam/bntChanceTeam";
 
-
-
 const AboutUsM3 = () => {
-  const {clickToChange,setClickToChange} = useContext(BntChangeTeamContext)
+  const { clickToChange, setClickToChange } = useContext(BntChangeTeamContext);
   const Developers = [
     {
       image: victor,
@@ -63,8 +59,6 @@ const AboutUsM3 = () => {
     },
   ];
 
-  
- 
   return (
     <>
       <AboutUsDiv
@@ -102,7 +96,9 @@ const AboutUsM3 = () => {
             />
           ))}
         </EquipList>
-        <ButtonChangeTeam onClick={()=> setClickToChange(!clickToChange)}>{clickToChange?"Conhecer equipe M3!" : "Conhecer equipe M4!"}</ButtonChangeTeam> 
+        <ButtonChangeTeam onClick={() => setClickToChange(!clickToChange)}>
+          {clickToChange ? "Conhecer equipe M3!" : "Conhecer equipe M4!"}
+        </ButtonChangeTeam>
       </AboutUsDiv>
     </>
   );

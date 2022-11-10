@@ -22,7 +22,7 @@ export interface IBudget {
   fixedCost: number | string;
   variableCost: number | string;
   budget: number;
-  id: string | number;
+  uuid: string | number;
   userId?: string | number | null;
 }
 

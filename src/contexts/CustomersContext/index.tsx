@@ -1,12 +1,13 @@
-import { createContext, useContext, useState } from "react";
-import { 
-  ICreateCustomer, 
-  ICustomerContext, 
-  ICustomerProvider, 
-  IUpdateCustomer 
+import { createContext, useContext, useState, useEffect } from "react";
+import {
+  ICreateCustomer,
+  ICustomerContext,
+  ICustomerProvider,
+  IUpdateCustomer,
 } from "./interfaces";
 import iBudgetApi from "../../services/iBudgetApi";
 import { useUserContext } from "../UserContext";
+import { useNavigate } from "react-router-dom";
 
 const CustomerContext = createContext<ICustomerContext>({} as ICustomerContext);
 
@@ -21,6 +22,7 @@ export const CustomerProvider = ({ children }: ICustomerProvider) => {
   const [clickedId, setClickedId] = useState<string>("");
 
   const { setCustomersHistory } = useUserContext();
+  const navigate = useNavigate();
 
   const createCustomer = async (data: ICreateCustomer): Promise<void> => {
     try {
@@ -29,7 +31,7 @@ export const CustomerProvider = ({ children }: ICustomerProvider) => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const sendCustomers = async (): Promise<void> => {
     try {
@@ -38,17 +40,39 @@ export const CustomerProvider = ({ children }: ICustomerProvider) => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
+
+  const sendBudgets = async (): Promise<void> => { 
+    const token = localStorage.getItem("@token");
+
+    if (typeof token === "string") {
+      try {
+        const res = await iBudgetApi.get(`/customers/${clickedId}`);
+        console.log(res.data.budgets);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (clickedId.length > 0) {
+      console.log("com id")
+      sendBudgets();
+      return;
+    }
+    console.log("sem id");
+  }, [navigate]);
 
   const updateCustomer = async (data: IUpdateCustomer): Promise<void> => {
     try {
       await iBudgetApi.patch(`/customers/${clickedId}`, data);
       sendCustomers();
-      setEditModalCard(false)
+      setEditModalCard(false);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const deleteCustomer = async (uuid: string): Promise<void> => {
     try {
@@ -57,12 +81,7 @@ export const CustomerProvider = ({ children }: ICustomerProvider) => {
     } catch (error) {
       console.error(error);
     }
-  }
-
-  const navigateDashboardBudget = (uuid: string) => {
-    setClickedId(uuid);
-    
-  }
+  };
 
   return (
     <CustomerContext.Provider
@@ -75,7 +94,8 @@ export const CustomerProvider = ({ children }: ICustomerProvider) => {
         editModalCard,
         setEditModalCard,
         setClickedId,
-        navigateDashboardBudget,
+        clickedId,
+        sendBudgets,
       }}
     >
       {children}
