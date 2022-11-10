@@ -1,9 +1,9 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 
 import Home from "../pages/Home";
-import Dashboard from "../pages/Dashboard";
+import PageDashboardBudget from "../pages/PageDashboardBudget";
+import PageDashboardCustomer from "../pages/PageDashboardCustomer";
 import { useUserContext } from "../contexts/UserContext";
-import { DashboardCustomers } from "../components/DashboardCustomers";
 
 const RoutesMain = () => {
   const { isAuthenticated } = useUserContext();
@@ -16,15 +16,18 @@ const RoutesMain = () => {
         path="/dashboard/customers"
         element={
           isAuthenticated ? (
-            <Dashboard />
+            <PageDashboardCustomer />
           ) : token !== null ? (
-            <Dashboard />
+            <PageDashboardCustomer />
           ) : (
             <Navigate replace to="/home" />
           )
         }
       />
-      <Route path="/dashboard/customer/budgets" element={<DashboardCustomers />} />
+      <Route
+        path="/dashboard/customer/budgets"
+        element={<PageDashboardBudget />}
+      />
       <Route path="*" element={<Navigate to="/home" />} />
     </Routes>
   );
