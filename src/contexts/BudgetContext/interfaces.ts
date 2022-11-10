@@ -33,6 +33,7 @@ export interface IBudgetContext {
   onCreateBudget: boolean;
   onHistoric: boolean;
   inputsBase: IInputs[];
+  budgets: IBudget[];
   sendBudget: (data: IBudgetOmitId) => void;
   addFixedValue: (data: any) => void;
   addVariableValue: (data: any) => void;

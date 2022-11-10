@@ -5,25 +5,31 @@ import { motion } from "framer-motion";
 import { ConteinerCardCustomerHistory } from "./style";
 import { ICustomer } from "../../contexts/CustomersContext/interfaces";
 import { useCustomerContext } from "../../contexts/CustomersContext/index";
+import { useNavigate } from "react-router-dom";
 
 export const CardCustomerHistory = ({
   name,
   uuid,
   email,
   contact,
-  isCompany,
 }: ICustomer) => {
+  const navigate = useNavigate();
+
   const {
     setEditModalCard,
     setClickedId,
-    deleteCustomer,
-    navigateDashboardBudget,
+    deleteCustomer
   } = useCustomerContext();
 
   const openEditModal = () => {
     setClickedId(uuid);
     setEditModalCard(true);
   };
+
+  const navigateDashboardBudget = () => {
+    setClickedId(uuid);
+    navigate("/dashboard/customer/budgets");
+  }
 
   return (
     <ConteinerCardCustomerHistory
@@ -33,7 +39,7 @@ export const CardCustomerHistory = ({
       animate={{ x: 0 }}
       exit={{ x: -100 }}
       transition={{ duration: 0.3 }}
-      onClick={() => navigateDashboardBudget(uuid)}
+      onClick={() => navigateDashboardBudget()}
     >
       <h2>{name}</h2>
       <span>email: {email}</span>

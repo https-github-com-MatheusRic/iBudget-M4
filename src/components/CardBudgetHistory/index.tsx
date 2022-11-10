@@ -11,7 +11,7 @@ import { ConteinerCardBudgetHistory } from "./style";
 export const CardBudgetHistory = ({
   projectName,
   budget,
-  id,
+  uuid,
   projectTime,
 }: IBudget) => {
   const priceFormated = new Intl.NumberFormat("pt-BR", {
@@ -62,23 +62,23 @@ export const CardBudgetHistory = ({
     >
       <h2>{projectName}</h2>
       <span>Valor: {priceFormated.format(budget)}</span>
-      <span ref={ref}>N°:{id}</span>
+      <span ref={ref}>N°:{uuid}</span>
       <div>
         <FaRegEdit
-          onClick={() => openEditModal(id, projectName, budget, projectTime)}
+          onClick={() => openEditModal(uuid, projectName, budget, projectTime)}
         />
         <GrDocumentPdf
           onClick={() => {
             const newDate = {
               projectName,
               budget,
-              projectId: id,
+              projectId: uuid,
               projectTime,
             };
             generatePDF(newDate);
           }}
         />
-        <GoTrashcan onClick={() => deleteBudgetHistory(id)} />
+        <GoTrashcan onClick={() => deleteBudgetHistory(uuid)} />
       </div>
     </ConteinerCardBudgetHistory>
   );

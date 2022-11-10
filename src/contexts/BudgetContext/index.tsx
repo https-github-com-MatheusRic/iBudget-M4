@@ -4,14 +4,16 @@ import { toast } from "react-toastify";
 
 import { inputsBase } from "../../components/InputsBase";
 import { IGeneratePdfProps } from "../../services/generatePdf";
-import { useUserContext } from "../UserContext/index";
+// import { useUserContext } from "../UserContext/index";
 import iBudgetApi from "../../services/iBudgetApi";
 import { generatePdf } from "../../services/generatePdf";
 
+import { IBudget } from '../UserContext/interfaces';
+import { useCustomerContext } from '../CustomersContext/index';
 import {
   IBudgetContext,
   IBudgetOmitId,
-  IBudgetOmitIdProps,
+  // IBudgetOmitIdProps,
   IBudgetProvider,
 } from "./interfaces";
 
@@ -37,34 +39,29 @@ export const BudgetProvider = ({ children }: IBudgetProvider) => {
   const [inputProjectName, setInputProjectName] = useState<string>("");
   const [inputBudgetValue, setBudgetValue] = useState<number>(0);
   const [inputProjectTime, setProjectTime] = useState<number>(0);
+  const [budgets, setBudgets] = useState<IBudget[]>([]);
 
-  const { setCustomersHistory } = useUserContext();
+  const { clickedId } = useCustomerContext();
 
   const priceFormated = new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
   });
 
-  useEffect(() => {
-    console.log("oi")
-    requestBudget();
-  }, []);
+  // useEffect(() => {
+  //   requestBudget();
+  // }, []);
 
   const requestBudget = async () => {
-    const id: string | null = localStorage.getItem("@id");
-    const token: string | null = localStorage.getItem("@token");
-
-    if (typeof token === "string" && typeof id === "string") {
       try {
-        iBudgetApi.defaults.headers.common.authorization = `Bearer ${token}`;
         const userResponse = await iBudgetApi.get(
-          `/users/${id}`
+          `/customers/${clickedId}`
         );
-        setCustomersHistory(userResponse.data.budgets);
+        console.log("ola")
+        setBudgets(userResponse.data.budgets);
       } catch (error) {
         console.error("Erro na requisição dos orçamentos.");
       }
-    }
   };
 
   const addFixedValue = (data: any): void => {
@@ -155,18 +152,18 @@ export const BudgetProvider = ({ children }: IBudgetProvider) => {
 
       const id = Number(localStorage.getItem("@id"));
 
-      const newData: IBudgetOmitIdProps = {
-        fixedCost: fixedValue,
-        variableCost: variableValue,
-        projectTime: days,
-        budget: finalBudget,
-        userId: id,
-        ...rest,
-      };
+      // const newData: IBudgetOmitIdProps = {
+      //   fixedCost: fixedValue,
+      //   variableCost: variableValue,
+      //   projectTime: days,
+      //   budget: finalBudget,
+      //   userId: id,
+      //   ...rest,
+      // };
 
       const request = async () => {
         try {
-          await iBudgetApi.post<IBudgetOmitIdProps>("/budgets", newData);
+          // await iBudgetApi.post<IBudgetOmitIdProps>("/budgets", newData);
           requestBudget();
         } catch (error) {
           console.error(error);
@@ -209,6 +206,7 @@ export const BudgetProvider = ({ children }: IBudgetProvider) => {
         addFixedValue,
         addVariableValue,
         addEditedValue,
+        budgets
       }}
     >
       {children}
