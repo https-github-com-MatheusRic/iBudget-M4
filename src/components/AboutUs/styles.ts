@@ -72,6 +72,7 @@ export const EquipList = styled.ul`
     border-radius: 10px;
   }
 `;
+
 export const ButtonChangeTeam = styled.button`
   display: flex;
   align-items: center;
@@ -83,11 +84,9 @@ export const ButtonChangeTeam = styled.button`
   color: rgba(var(--color-purple));
   font-weight: 600;
   cursor: pointer;
-  :hover{
+  :hover {
     background-color: rgba(var(--color-purple));
-  color: rgba(var(--color-white));
-  outline: 3px solid rgba(var(--color-white));;
+    color: rgba(var(--color-white));
+    outline: 3px solid rgba(var(--color-white));
   }
-
-
-`
+`;
