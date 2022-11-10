@@ -8,7 +8,7 @@ import { ICreateCustomer } from "../../contexts/CustomersContext/interfaces";
 import { useCustomerContext } from "../../contexts/CustomersContext/index";
 
 export const CreateCustomer = () => {
-  const { sendCustomer } = useCustomerContext();
+  const { createCustomer } = useCustomerContext();
 
   const formSchema = yup.object().shape({
     name: yup.string().required(),
@@ -34,7 +34,7 @@ export const CreateCustomer = () => {
   return (
     <ContainerCreate>
       <h1>Preencha os dados</h1>
-      <form onSubmit={handleSubmit(sendCustomer, onError)}>
+      <form onSubmit={handleSubmit(createCustomer, onError)}>
         <label htmlFor="name">
           Nome: <span>*</span>
         </label>
