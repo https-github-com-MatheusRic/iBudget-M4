@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { ModalFixedCost } from "../ModalFixedCost/index";
 import { ModalVariableCost } from "../ModalVariableCost/index";
-import { ModalEditCard } from "../ModalEditCard/index";
+import { ModalEditCardBudget } from "../ModalEditCardBudget";
 import { useBudgetContext } from "../../contexts/BudgetContext";
 import { CreateBudget } from "../CreateBudget/index";
 import { BudgetHistory } from "../BudgetHistory/index";
@@ -39,7 +39,7 @@ export const DashboardBudget = () => {
       <AnimatePresence>
         {onModalFixedCost && <ModalFixedCost />}
         {onModalVariableCost && <ModalVariableCost />}
-        {editModalCard && <ModalEditCard />}
+        {editModalCard && <ModalEditCardBudget />}
         {/* {onModalUserInfo && <ModalUserInfo />} */}
       </AnimatePresence>
     </main>

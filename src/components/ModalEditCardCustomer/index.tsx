@@ -2,43 +2,29 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
-import { useBudgetContext } from "../../contexts/BudgetContext";
 import {
   ConteinerModal,
   Modal,
   ConteinerFormModal,
 } from "../ModalFixedCost/style";
 import { StyledModalEdit } from "./style";
+import { IUpdateCustomer } from "../../contexts/CustomersContext/interfaces";
+import { useCustomerContext } from '../../contexts/CustomersContext/index';
 
-interface IEditData {
-  projectName: string;
-  projectTime: string;
-  budget: string;
-}
-
-export const ModalEditCard = () => {
+export const ModalEditCardCustomer = () => {
   const {
-    addEditedValue,
     setEditModalCard,
-    inputProjectName,
-    inputBudgetValue,
-    inputProjectTime,
-  } = useBudgetContext();
+    updateCustomer
+  } = useCustomerContext();
 
-  const { register, handleSubmit } = useForm<IEditData>();
+  const { register, handleSubmit } = useForm<IUpdateCustomer>();
 
-  const handleOutsideClick = (event: React.SyntheticEvent) => {
-    const targetId = (event.target as HTMLDivElement).id;
-    if (targetId === "modalEditCard") {
-      setEditModalCard(false);
-    }
+  const handleOutsideClick = (data: IUpdateCustomer) => {
+    updateCustomer(data);
   };
 
   return (
-    <ConteinerModal
-      id="modalEditCard"
-      onClick={(event) => handleOutsideClick(event)}
-    >
+    <ConteinerModal>
       <Modal
         as={motion.div}
         initial={{ y: -50, opacity: 0 }}
@@ -47,37 +33,43 @@ export const ModalEditCard = () => {
         transition={{ duration: 0.2 }}
       >
         <div>
-          <h2>Editar orçamento</h2>
+          <h2>Editar cliente</h2>
           <span onClick={() => setEditModalCard(false)}>
             <IoIosCloseCircleOutline />
           </span>
         </div>
         <ConteinerFormModal>
-          <form onSubmit={handleSubmit(addEditedValue)}>
+          <form onSubmit={handleSubmit(handleOutsideClick)}>
             <StyledModalEdit>
-              <label htmlFor="value">Nome do projeto:</label>
+              <label htmlFor="value">Nome do cliente:</label>
               <input
                 type="text"
-                id="value"
-                defaultValue={inputProjectName}
+                id="value"           
                 placeholder="Atualize os dados aqui"
-                {...register("projectName")}
+                {...register("name")}
               />
-              <label htmlFor="value">Conclusão em (dias):</label>
+
+              <label htmlFor="value">Email do cliente:</label>
               <input
                 type="text"
                 id="value"
-                defaultValue={inputProjectTime}
                 placeholder="Atualize os dados aqui"
-                {...register("projectTime")}
+                {...register("email")}
               />
-              <label htmlFor="value">Valor Total do orçamento:</label>
+
+              <label htmlFor="value">Contato do cliente:</label>
               <input
                 type="text"
-                id="value"
-                defaultValue={inputBudgetValue}
+                id="value"            
                 placeholder="Atualize os dados aqui"
-                {...register("budget")}
+                {...register("contact")}
+              />
+
+              <label htmlFor="value">Cliente possui empresa?</label>
+              <input
+                type="checkbox"
+                id="value"
+                {...register("isCompany")}
               />
               <button type="submit">Confirmar</button>
             </StyledModalEdit>
