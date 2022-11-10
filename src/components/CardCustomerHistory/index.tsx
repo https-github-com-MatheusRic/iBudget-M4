@@ -26,10 +26,10 @@ export const CardCustomerHistory = ({
     setEditModalCard(true);
   };
 
-  const navigateDashboardBudget = () => {
-    setClickedId(uuid);
-    navigate("/dashboard/customer/budgets");
-  }
+  // const navigateDashboardBudget = () => {
+  //   setClickedId(uuid);
+  //   navigate("/dashboard/customer/budgets");
+  // }
 
   return (
     <ConteinerCardCustomerHistory
@@ -39,7 +39,7 @@ export const CardCustomerHistory = ({
       animate={{ x: 0 }}
       exit={{ x: -100 }}
       transition={{ duration: 0.3 }}
-      onClick={() => navigateDashboardBudget()}
+      // onClick={() => navigateDashboardBudget()}
     >
       <h2>{name}</h2>
       <span>email: {email}</span>
