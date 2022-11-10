@@ -11,9 +11,9 @@ import Routes from "./Routes/index";
 function App() {
   return (
     <>
-      <CustomerProvider>
-        <UserProvider>
-          <BudgetProvider>
+      <UserProvider>
+        <BudgetProvider>
+          <CustomerProvider>
             <GlobalStyle />
             <ToastContainer
               position="bottom-right"
@@ -29,9 +29,9 @@ function App() {
               limit={2}
             />
             <Routes />
-          </BudgetProvider>
-        </UserProvider>
-      </CustomerProvider>
+          </CustomerProvider>
+        </BudgetProvider>
+      </UserProvider>
     </>
   );
 }
