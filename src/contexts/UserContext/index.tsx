@@ -8,7 +8,6 @@ import { AxiosError } from "axios";
 import iBudgetApi from "../../services/iBudgetApi";
 import userPng from "../../assets/img/user.png";
 import {
-  IBudget,
   ILoginData,
   ILoginForm,
   IRegisterForm,
@@ -19,6 +18,8 @@ import {
   IMessageError,
   IDecode
 } from "./interfaces";
+import { ICustomer } from "../CustomersContext/interfaces";
+
 
 export const UserContext = createContext<IUserProviderData>(
   {} as IUserProviderData
@@ -39,23 +40,34 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
   const [isSobre, setIsSobre] = useState<boolean>(false);
   const [isImage, setIsImage] = useState<string>("");
   const [onModalUserInfo, setOnModalUserInfo] = useState<boolean>(false);
-  const [customersHistory, setCustomersHistory] = useState<IBudget[]>([]);
+  const [customersHistory, setCustomersHistory] = useState<ICustomer[]>([]);
   
   const navigate = useNavigate();
 
   const handleEditUserInfo = async (data: IEditUser) => {
-    console.log(data);
+    try {
+      await iBudgetApi.patch(`/users/${user.uuid}`, data);
+      loadUser();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleDeleteUser = async () => {
-    console.log(user.id);
+    try {
+      await iBudgetApi.delete(`/users/${user.uuid}`);
+      localStorage.clear();
+      navigate("/home")
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   async function loadUser() {
     const token: string | null = localStorage.getItem("@token");
-    const id = jwtDecode<IDecode>(token as string).sub;
+    const id: string | null = localStorage.getItem("@id");
 
-    if (typeof token === "string") {
+    if (typeof token === "string" && typeof id === "string") {
       try {
         iBudgetApi.defaults.headers.common.authorization = `Bearer ${token}`;
         const userResponse = await iBudgetApi.get(
@@ -82,6 +94,9 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
       );
       localStorage.clear();
       localStorage.setItem("@token", response.data.token);
+
+      const id = jwtDecode<IDecode>(response.data.token as string).sub;
+      localStorage.setItem("@id", id);
    
       navigate("/dashboard/customers");
       toast.success("Login realizado com sucesso!");
@@ -89,6 +104,7 @@ export const UserProvider = ({ children }: IUserProviderProps) => {
     } catch (err: unknown) {
       const errors = err as AxiosError;
       const messageError = (errors.response?.data as IMessageError).message;
+      console.log(errors)
       
       if (messageError === "Invalid user or password") {
         toast.error("Email ou senha Incorretos");
