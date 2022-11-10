@@ -7,6 +7,7 @@ import { CustomerProvider } from "./contexts/CustomersContext";
 
 import GlobalStyle from "./styles/global";
 import Routes from "./Routes/index";
+import BtnProvider from "./contexts/BntChangeTeam/bntChanceTeam";
 
 function App() {
   return (
@@ -14,21 +15,23 @@ function App() {
       <CustomerProvider>
         <UserProvider>
           <BudgetProvider>
-            <GlobalStyle />
-            <ToastContainer
-              position="bottom-right"
-              hideProgressBar={true}
-              newestOnTop={false}
-              pauseOnFocusLoss
-              autoClose={3000}
-              theme={"dark"}
-              pauseOnHover
-              closeOnClick
-              rtl={false}
-              draggable
-              limit={2}
-            />
-            <Routes />
+            <BtnProvider>
+              <GlobalStyle />
+              <ToastContainer
+                position="bottom-right"
+                hideProgressBar={true}
+                newestOnTop={false}
+                pauseOnFocusLoss
+                autoClose={3000}
+                theme={"dark"}
+                pauseOnHover
+                closeOnClick
+                rtl={false}
+                draggable
+                limit={2}
+              />
+              <Routes />
+            </BtnProvider>
           </BudgetProvider>
         </UserProvider>
       </CustomerProvider>

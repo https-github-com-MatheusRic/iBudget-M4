@@ -89,4 +89,5 @@ export const ButtonChangeTeam = styled.button`
   outline: 3px solid rgba(var(--color-white));;
   }
 
+
 `
